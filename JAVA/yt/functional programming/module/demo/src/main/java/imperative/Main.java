@@ -1,26 +1,24 @@
 package imperative;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static imperative.Main.Gender.*;
 
 public class Main {
     public static void main(String[] args) {
-        List<Person> People = Collections.unmodifiableList(Arrays.asList( //for java 9 List<Person> People = List.of(...........);
+        List<Person> People = List.of( //for java 9 List<Person> People = List.of(...........);
             new Person("John", MALE),
             new Person("Maria", FEMALE),
             new Person("Alisa", FEMALE),
             new Person("Sanna", FEMALE),
             new Person("Maanika", FEMALE),
             new Person("LEO", MALE)
-            )
         );
 
-        System.out.println("Imperative approach:");
+        System.out.println("//Imperative approach:");
 
         //imperative approach
         List<Person> females = new ArrayList<>();
@@ -35,13 +33,15 @@ public class Main {
             System.out.println(female);
         }
 
-        System.out.println("Declarative approach:");
-        // Declarative approach
-        // People.stream()
-        //     .filter(person -> FEMALE.equals(person.gender))
-        //     .collect(Collectors.toList())
-        //     .forEach(System.out::println);
-    }
+        System.out.println("//Declarative approach:");
+        //Declarative approach
+        Predicate<Person> personPredicate = person -> FEMALE.equals(person.gender);
+        
+        List<Person> females2 = People.stream()
+            .filter(personPredicate)
+            .collect(Collectors.toList());
+        females2.forEach(System.out::println);
+        }
 
     static class Person {
         private final String name;

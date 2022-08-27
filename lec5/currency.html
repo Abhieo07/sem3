@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Currency Exchange</title>
+        <script>
+            var myHeaders = new Headers();
+            myHeaders.append("apikey", "RvDyxzzenuuofpN5rbePBGtI9ELBC5Qk");
+            var requestOptions = {
+            method: 'GET',
+            redirect: 'follow',
+            headers: myHeaders
+            };
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+                document.querySelector('form').onsubmit = function() {
+
+                    fetch("https://api.apilayer.com/exchangerates_data/latest?base=INR",requestOptions)
+                    .then(response => response.json())
+                    .then(data => {
+                        const currency = document.querySelector('#currency').value.toUpperCase();
+                        const rate = data.rates[currency];
+                        if (rate != undefined) {
+                            document.querySelector('#result').innerHTML = `1 INR is equals to ${rate.toFixed(3)} ${currency}.`;
+                        } else {
+                            document.querySelector('#result').innerHTML = `Invalid currency name ${currency}.`
+                        }
+                        
+                    })
+                    .catch(error => {
+                        console.log('Error:',error)
+                    })
+
+                    return false
+
+                }
+
+
+            })
+        </script>
+    </head>
+    <body>
+        <h1>Currency Rates</h1>
+        <form>
+            <input id="currency" placeholder="Currency" type="text">
+            <input type="submit" value="Convert">
+        </form>
+        <div id="result">
+
+        </div>
+    </body>
+</html>

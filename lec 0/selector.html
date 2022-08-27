@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>selector</title>  
+        <style>
+            ul li {
+                color: blueviolet;
+            }
+            a {
+                color: blue;
+            }
+            a[href="https://facebook.com"] {
+                color: red;
+            }
+        </style> 
+    </head>
+    <body>
+        <ol> decendant
+            <li>list item one</li>
+            <li>list item two</li>
+            <ul>
+                <li>list item one</li>
+                <li>list item two</li>
+            </ul>
+            <li>list item three</li>
+        </ol>
+        <ul> attributes
+            <li><a href="https://google.com">Google</a></li>
+            <li><a href="https://facebook.com">Facebook</a></li>
+            <li><a href="https://amazon.com">Amazon</a></li>
+        </ul>
+    </body>
+</html>
