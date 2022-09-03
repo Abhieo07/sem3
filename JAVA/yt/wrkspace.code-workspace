@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\..\\..\\functional programming"
+		},
+		{
+			"name": "spring_boot_projecy",
+			"path": "..\\..\\..\\..\\..\\..\\.."
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "interactive"
+	}
+}
