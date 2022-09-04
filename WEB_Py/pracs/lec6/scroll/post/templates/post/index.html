@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Scroll...</title>
+        <script>
+
+            // Start with first post
+            let counter = 1;
+
+            //load post 20 at a time
+            const quantity = 20;
+
+            //when DOM loads, render the first 20 posts
+            document.addEventListener('DOMContentLoaded', load);
+
+            window.onscroll = () => {
+                if(window.innerHeight + scrollY >= document.body.offsetHeight) {
+                    load();
+                }
+                
+            }
+
+            //load next set of posts
+            function load() {
+
+                //set start and end post numbers, and update counter
+                const start = counter;
+                const end = start + quantity - 1;
+                counter = end + 1;
+
+                //get new posts and add post
+                fetch(`/posts?start=${start}&end=${end}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.posts.forEach(add_post);
+                })
+            };
+
+            //add a mew post with given contents to DOM
+            function add_post(contents) {
+
+                //create new post
+                const post = document.createElement('div');
+                post.className = 'post';
+                post.innerHTML = contents;
+
+                //add post to DOM
+                document.querySelector('#posts').append(post)
+            };
+
+        </script>
+    </head>
+    <body>
+        <div id="posts">
+        </div>
+    </body>
+</html>

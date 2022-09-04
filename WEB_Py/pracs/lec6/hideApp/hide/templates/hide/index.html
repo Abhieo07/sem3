@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Scroll...</title>
+        <script>
+
+            // Start with first post
+            let counter = 1;
+
+            //load post 20 at a time
+            const quantity = 20;
+
+            //when DOM loads, render the first 20 posts
+            document.addEventListener('DOMContentLoaded', load);
+
+            window.onscroll = () => {
+                if(window.innerHeight + scrollY >= document.body.offsetHeight) {
+                    load();
+                }
+                
+            };
+
+            document.addEventListener('click', event => {
+                const element = event.target;
+                if(element.className === 'hide') {
+                    element.parentElement.style.animationPlayState = 'running'
+                   // element.parentElement.remove()  it remove the parent
+                    //element.remove() // it will remove just element i.e button having className = hide
+                    element.parentElement.addEventListener('animationend', () => { //when animation over removes the block
+                        element.parentElement.remove();
+                    });
+                }
+            });
+
+            //load next set of posts
+            function load() {
+
+                //set start and end post numbers, and update counter
+                const start = counter;
+                const end = start + quantity - 1;
+                counter = end + 1;
+
+                //get new posts and add post
+                fetch(`/posts?start=${start}&end=${end}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.posts.forEach(add_post);
+                })
+            };
+
+            //add a mew post with given contents to DOM
+            function add_post(contents) {
+
+                //create new post
+                const post = document.createElement('div');
+                post.className = 'post';
+                post.innerHTML = `${contents} <button class="hide">Hide</button>`;
+
+                //add post to DOM
+                document.querySelector('#posts').append(post)
+            };
+
+        </script>
+        <style>
+
+            @keyframes hide {
+                0% {
+                    opacity: 1;
+                    background-color: cornflowerblue;
+                    font-size: 40px;
+                    height: 100%;
+                    line-height: 100%;
+                    padding: 20px;
+                    margin-bottom: 10px;
+                }
+
+                75% {
+                    opacity: 0;
+                    background-color: aquamarine;
+                    font-size: 5px;
+                    height: 100%;
+                    line-height: 100%;
+                    padding: 20px;
+                    margin-bottom: 10px;
+                }
+
+                100% {
+                    opacity: 0;
+                    height: 0px;
+                    line-height: 0px;
+                    padding: 0px;
+                    margin-bottom: 0px;
+                }
+            }
+
+            .hide {
+                float: right;
+            }
+
+            .post {
+                background-color: cornflowerblue;
+                padding: 20px;
+                margin-bottom: 15px;
+                font-size: 40px;
+                animation-name: hide;
+                animation-duration: 2s;
+                animation-fill-mode: forwards;
+                animation-play-state: paused;
+            }
+            body {
+               padding-bottom: 50px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="posts">
+        </div>
+    </body>
+</html>
